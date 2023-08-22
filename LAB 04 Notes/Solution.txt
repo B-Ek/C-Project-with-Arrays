@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX 30
+
+typedef  struct
+{
+char names[MAX];
+char sur_names[MAX];
+double scores[MAX];
+double avgscr;
+}project_t;
+
+double calculateAverageScore(const project_t *projectp);
+int scanProject(FILE *filep, project_t *projectp);
+int loadProjects(project_t projects[]);
+void printProject(const project_t *projectp);
+int findPrintLoser(project_t projects[], int numofProjects);
+
+int main(void)
+{
+    project_t projects[MAX];
+    int numofProjects;
+    numofProjects = loadProjects(projects);
+
+    printf("Projects:\n");
+    for (int i = 0; i < numofProjects; i++)
+        printProject(&projects[i]);
+
+    findPrintLoser(projects, numofProjects);
+
+    return 0;
+}
+int scanProject(FILE *infile, project_t *projectp)
+{
+
+     char lines[500];
+
+int scn=fscanf(infile,"%s%s%lf%lf%lf%lf%lf",projectp->names,projectp->sur_names,&projectp->scores[0],&projectp->scores[1],&projectp->scores[2],&projectp->scores[3],&projectp->scores[4]);
+
+if(scn == 7)
+    return 1;
+else
+    return 0;
+}
+
+
+double calculateAverageScore(const project_t*projectp){
+    double sumOf = 0;
+/*int i = 0;
+    while(i<5) {
+    }*/
+    for(int i = 0;i<5;i++)
+        sumOf += projectp->scores[i];
+   double maximum = projectp->scores[0];
+
+    for(int i = 0;i<5;i++)
+        if(maximum < projectp->scores[i])
+   maximum = projectp->scores[i];
+ double minimum = projectp->scores[0];
+
+    for(int i = 0;i<5;i++)
+        if(minimum > projectp->scores[i])
+            minimum = projectp->scores[i];
+    double average;
+    if(maximum - minimum > 5){
+    average = (sumOf - maximum - minimum) / 3;
+    }else
+        average = sumOf / 5;
+
+    return average;
+
+}
+
+int loadProjects(project_t projects[])
+{
+
+FILE*file;
+char FileName[20];
+int control=0;
+
+printf("Enter the file name to read: \n");
+
+scanf("%s",FileName);
+file=fopen(FileName,"r");
+printf("Opening %s\n",FileName);
+
+while(scanProject(file,&projects[control])){
+
+    projects[control].avgscr=calculateAverageScore(&projects[control]);
+    control++;
+}
+
+printf("Loading complete\n");
+fclose(file);
+printf("Closing %s\n",FileName);
+return control;
+}
+
+void printProject(const project_t *projectp)
+{
+     printf("%s %s %.2lf \n",projectp->names,projectp->sur_names,projectp->avgscr);
+}
+
+int findPrintLoser(project_t projects[], int numofProjects)
+{
+     int count=0;
+    double minavg=projects[0].avgscr;
+    int i = 0;
+
+    for(int i=1;i<numofProjects;i++){
+        if(minavg > projects[i].avgscr ){
+            minavg = projects[i].avgscr;
+            count =i;
+        }
+    }
+    for(int i =0; i<numofProjects; i++){
+            if(i!= count){
+                printf("points %lf \n", projects[i].avgscr);
+            }
+    }
+    printf("Worst Score: \n");
+    printProject(&projects[count]);
+    return count;
+}

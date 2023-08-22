@@ -1,0 +1,5 @@
+Ece Yildiz 3 6 1 7 9
+Can Sahin 2 4 6 8 5 
+Sevil Gunduz 1 4 2 9 8
+Mutlu Sunal 7 6 9 5 7
+Cem Duru 5 5 8 7 9

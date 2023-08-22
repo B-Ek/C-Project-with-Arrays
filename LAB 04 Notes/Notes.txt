@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 30
+
+typedef  struct
+{
+    //write your code here
+}project_t;
+
+double calculateAverageScore(const project_t *projectp);
+int scanProject(FILE *filep, project_t *projectp);
+int loadProjects(project_t projects[]);
+void printProject(const project_t *projectp);
+int findPrintLoser(project_t projects[], int numofProjects);
+
+int main(void)
+{
+    project_t projects[MAX];
+
+    int numofProjects;
+
+    numofProjects = loadProjects(projects);
+
+    printf("Projects:\n");
+    for (int i = 0; i < numofProjects; i++)
+        printProject(&projects[i]);
+
+    findPrintLoser(projects, numofProjects);
+
+    return 0;
+}
+
+double calculateAverageScore(const project_t *projectp)
+{
+   //write your code here
+}
+
+int scanProject(FILE *infile, project_t *projectp)
+{
+     //write your code here
+
+}
+
+int loadProjects(project_t projects[])
+{
+    //write your code here
+}
+
+void printProject(const project_t *projectp)
+{
+     //write your code here
+}
+
+int findPrintLoser(project_t projects[], int numofProjects)
+{
+     //write your code here
+}
